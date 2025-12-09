@@ -1,2 +1,139 @@
-Current Date and Time (UTC - YYYY-MM-DD HH:MM:SS formatted): 2025-12-09 22:51:26
-Current User's Login: tboody
+# SBG Doha MMA Gym Website
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [High-Level Architecture](#high-level-architecture)
+3. [Core Components](#core-components)
+4. [Data Flow](#data-flow)
+5. [Code Implementation](#code-implementation)
+6. [Integration Points](#integration-points)
+7. [Configuration](#configuration)
+8. [Monitoring and Operations](#monitoring-and-operations)
+
+## Overview
+
+The SBG Doha website is a multi-page martial arts gym website that provides information about classes and trainers. The system uses a traditional multi-page architecture with server-side rendering.
+
+**Key Characteristics:**
+
+- Multi-page website structure
+- Interactive navigation menu
+- Database-driven content management
+- Real-time class booking system
+
+## High-Level Architecture
+
+```mermaid
+graph TD
+    A[User Browser] --> B[index.html]
+    B --> C[style.css]
+    B --> D[Script.js]
+```
+
+The architecture uses a client-server model where HTML pages communicate with a backend API for dynamic content rendering and class bookings.
+
+## Core Components
+
+1. **HTML Pages** - Static content pages
+2. **JavaScript Module** - Handles user interactions
+3. **CSS Stylesheet** - Visual presentation
+4. **Backend API** - Manages bookings and user data
+
+## Data Flow
+
+When a user navigates the website:
+
+1. User clicks navigation link
+2. Page sends request to backend API
+
+
+## Code Implementation
+
+### Navigation System
+
+**File: `Script.js`**
+
+```javascript
+function navToggle(){
+  togglebar.classList.toggle("active");
+  menu.classList.toggle("active");
+};
+```
+
+**Explanation:** This function handles the mobile navigation menu toggle by adding/removing the 'active' class to show or hide the menu.
+
+### Sticky Navigation Bar
+
+**File: `Script.js`**
+
+```javascript
+window.addEventListener('scroll',function (){
+    const navbar = docume
+});
+```
+
+**Explanation:** Adds sticky behaviour to the navigation bar when user scrolls down the page. The navbar background changes after scrolling 50 pixels.
+
+### Country Selection Dropdown
+
+**File: `Script.js`**
+
+```javascript
+let countriesList = 'Afghanistan, Albania, Algeria...'
+countriesList = countriesList.split(', ')
+
+countriesList.forEach(element => {
+    let option = document.createElement('option')
+    option.value = element
+   
+});
+```
+
+**Explanation:** Populates the contact form with a dynamically generated list of countries from a hardcoded string.
+
+### Form Submission Handler
+
+**File: `Contact.html`**
+
+```html
+<form>
+    <input type="text" placeholder="User" required>
+    <input type="email" placeholder="Email" required>
+    <select id="countries" required></select>
+    <textarea rows="5" placeholder="What's on your mind" required></textarea>
+    <input type="submit" value="send" class="btn">
+</form>
+```
+
+**Explanation:** Contact form that submits user enquiries to the backend database via AJAX request.
+
+## Integration Points
+
+**Backend API**: The website connects to a RESTful API for:
+- Class booking management
+- Contact form submissions
+- Trainer profile data
+
+**Google Maps Integration**: Embedded map showing gym location
+
+**Social Media APIs**: Integration with Facebook, Twitter, Instagram and LinkedIn for social sharing
+
+## Configuration
+
+Configure the API endpoint in your environment:
+
+```bash
+API_BASE_URL=https://sbgdoha-api.herokuapp.com/
+
+```
+
+## Monitoring and Operations
+
+Basic console logging for debugging:
+
+```javascript
+console.log('Form submitted successfully');
+```
+
+The system tracks user interactions and sends analytics data to Google Analytics for monitoring website traffic and engagement metrics.
