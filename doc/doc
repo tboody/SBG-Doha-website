@@ -13,14 +13,14 @@
 
 ## Overview
 
-The SBG Doha website is a multi-page martial arts gym website that provides information about classes and trainers. The system uses a traditional multi-page architecture with server-side rendering.
+The SBG Doha website is a multi-page martial arts gym website that provides information about classes and trainers. The system uses a traditional static multi-page architecture.
 
 **Key Characteristics:**
 
 - Multi-page website structure
 - Interactive navigation menu
-- Database-driven content management
-- Real-time class booking system
+- Client-side JavaScript for interactivity
+- Static HTML/CSS/JS implementation
 
 ## High-Level Architecture
 
@@ -31,109 +31,108 @@ graph TD
     B --> D[Script.js]
 ```
 
-The architecture uses a client-server model where HTML pages communicate with a backend API for dynamic content rendering and class bookings.
+The architecture is a static website where HTML pages load CSS for styling and JavaScript for client-side interactivity such as navigation toggling and form enhancements.
 
 ## Core Components
 
-1. **HTML Pages** - Static content pages
-2. **JavaScript Module** - Handles user interactions
-3. **CSS Stylesheet** - Visual presentation
-4. **Backend API** - Manages bookings and user data
+1. **HTML Pages** - Static content pages (index.html, About.html, Classes.html, Contact.html, Gallery.html, History.html, Trainers.html)
+2. **JavaScript Module** - Handles user interactions (Script.js)
+3. **CSS Stylesheet** - Visual presentation (style.css)
 
 ## Data Flow
 
 When a user navigates the website:
 
 1. User clicks navigation link
-2. Page sends request to backend API
+2. Browser loads the corresponding HTML page
+3. JavaScript enhances the page with interactive elements (navigation toggle, country dropdown)
 
 
 ## Code Implementation
 
 ### Navigation System
 
-**File: `Script.js`**
+**File: `Script.js:7-14`**
 
 ```javascript
+const togglebar = document.querySelector('.navbar_container2');
+const menu = document.querySelector('ol');
+
 function navToggle(){
   togglebar.classList.toggle("active");
   menu.classList.toggle("active");
 };
 ```
 
-**Explanation:** This function handles the mobile navigation menu toggle by adding/removing the 'active' class to show or hide the menu.
+**Explanation:** This function handles the mobile navigation menu toggle by adding/removing the 'active' class to show or hide the menu. It selects the navbar container and menu elements, then toggles their visibility when called (typically by a click event).
 
 ### Sticky Navigation Bar
 
-**File: `Script.js`**
+**File: `Script.js:2-5`**
 
 ```javascript
 window.addEventListener('scroll',function (){
-    const navbar = docume
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.toggle("sticky", window.scrollY > 50);
 });
 ```
 
-**Explanation:** Adds sticky behaviour to the navigation bar when user scrolls down the page. The navbar background changes after scrolling 50 pixels.
+**Explanation:** Adds sticky behaviour to the navigation bar when user scrolls down the page. The navbar receives the 'sticky' class after scrolling 50 pixels.
 
 ### Country Selection Dropdown
 
-**File: `Script.js`**
+**File: `Script.js:15-26`**
 
 ```javascript
 let countriesList = 'Afghanistan, Albania, Algeria...'
 countriesList = countriesList.split(', ')
 
+let countriesSelect = document.querySelector('select#countries')
+
 countriesList.forEach(element => {
     let option = document.createElement('option')
     option.value = element
-   
+    option.textContent = element
+
+    countriesSelect.appendChild(option)
 });
 ```
 
-**Explanation:** Populates the contact form with a dynamically generated list of countries from a hardcoded string.
+**Explanation:** Populates the contact form with a dynamically generated list of countries from a hardcoded string. The code splits the comma-separated string, creates option elements for each country, and appends them to the select element with id 'countries'.
 
-### Form Submission Handler
+### Contact Form Structure
 
-**File: `Contact.html`**
+**File: `Contact.html:39-47`**
 
 ```html
 <form>
     <input type="text" placeholder="User" required>
     <input type="email" placeholder="Email" required>
-    <select id="countries" required></select>
+    <select id="countries" required>
+        <option value="" selected disabled hidden>Select Country:</option>
+    </select>
     <textarea rows="5" placeholder="What's on your mind" required></textarea>
+    <br>
     <input type="submit" value="send" class="btn">
+    </br>
 </form>
 ```
 
-**Explanation:** Contact form that submits user enquiries to the backend database via AJAX request.
+**Explanation:** Contact form that collects user information including name, email, country selection (populated by JavaScript), and a message. The form uses HTML5 validation with required fields.
 
 ## Integration Points
 
-**Backend API**: The website connects to a RESTful API for:
-- Class booking management
-- Contact form submissions
-- Trainer profile data
+**Font Awesome**: The website uses Font Awesome icons (version 5.15.1) for social media icons and other UI elements.
 
-**Google Maps Integration**: Embedded map showing gym location
-
-**Social Media APIs**: Integration with Facebook, Twitter, Instagram and LinkedIn for social sharing
+**Social Media Links**: The footer contains links to social media platforms (Facebook, Twitter, Instagram, LinkedIn) with corresponding Font Awesome icons.
 
 ## Configuration
 
-Configure the API endpoint in your environment:
+The website requires no special configuration. All files are static and can be served from any web server.
 
-```bash
-API_BASE_URL=https://sbgdoha-api.herokuapp.com/
-
-```
+**External Dependencies:**
+- Font Awesome CSS: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css
 
 ## Monitoring and Operations
 
-Basic console logging for debugging:
-
-```javascript
-console.log('Form submitted successfully');
-```
-
-The system tracks user interactions and sends analytics data to Google Analytics for monitoring website traffic and engagement metrics.
+This is a static website with no built-in monitoring or analytics currently implemented. Browser developer tools can be used for debugging client-side JavaScript functionality.
